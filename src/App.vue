@@ -44,6 +44,7 @@ export default {
       if (this.answer.toLowerCase() === this.emojiToWord(this.emoji)) {
         this.score++;
       }
+      // console.log("score ", this.score);
       this.answer = "";
       // this.roundEmojis.push(this.randomIndex);
       if (this.round < 4) {
@@ -51,6 +52,10 @@ export default {
         console.log(this.roundEmojis);
       } else {
         console.log(this.roundEmojis);
+      // console.log("score ", this.score);
+      alert("Your score: " + this.score + " of 5");
+
+
         this.roundEmojis = [];
         this.round = 0;
         this.score = 0;
@@ -59,6 +64,7 @@ export default {
         alert("You have completed all rounds.");
 
         document.querySelector("input").disabled = true;
+
         // ADD
 
       }
