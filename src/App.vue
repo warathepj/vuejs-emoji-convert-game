@@ -28,48 +28,18 @@ export default {
     };
   },
   methods: {
-    // generateUniqueEmojis() {
-      // let uniqueIndex = false;
-      // this.randomIndex = Math.floor(Math.random() * this.emojis.length);
-      // if uniqueIndex = true;
-      // this.emoji = this.emojis[this.randomIndex];
-      // this.emojiIndexes.push(this.randomIndex); // 2Mar Not use this line, add the index of the current emoji to the array
-      // this.roundEmojis.push(this.randomIndex);
-    // generateUniqueEmojis() {
-    //   this.randomIndex = Math.floor(Math.random() * this.emojis.length);
-    //   this.emoji = this.emojis[this.randomIndex];
-    //   // this.emojiIndexes.push(this.randomIndex); // add the index of the current emoji to the array
-    //   this.roundEmojis.push(this.randomIndex);
-    // },
-
-    // generateUniqueEmojis() {
-  // for (let i = 0; i < 5; i++) {
-    // let uniqueIndex = false;
-    // while (!uniqueIndex) {
-    //   let randomIndex = Math.floor(Math.random() * this.emojis.length);
-    //   if (!this.roundEmojis.includes(randomIndex)) {
-    //     uniqueIndex = true;
-    //     this.emoji = this.emojis[this.randomIndex];
-    //     this.roundEmojis.push(randomIndex);
-    //   }
-    // }
-  // }
-    // },
-
     generateUniqueEmojis() {
-  let uniqueIndex = false;
-  while (!uniqueIndex) {
-    let randomIndex = Math.floor(Math.random() * this.emojis.length);
-    if (!this.roundEmojis.includes(randomIndex)) {
-      uniqueIndex = true;
-      this.emoji = this.emojis[randomIndex];
-      this.randomIndex = randomIndex;
-      this.roundEmojis.push(randomIndex);
-    }
-  }
-},
-
-
+      let uniqueIndex = false;
+      while (!uniqueIndex) {
+        let randomIndex = Math.floor(Math.random() * this.emojis.length);
+        if (!this.roundEmojis.includes(randomIndex)) {
+          uniqueIndex = true;
+          this.emoji = this.emojis[randomIndex];
+          this.randomIndex = randomIndex;
+          this.roundEmojis.push(randomIndex);
+        }
+      }
+    },
     checkAnswer() {
       if (this.answer.toLowerCase() === this.emojiToWord(this.emoji)) {
         this.score++;
@@ -84,6 +54,13 @@ export default {
         this.roundEmojis = [];
         this.round = 0;
         this.score = 0;
+
+        // ADD
+        alert("You have completed all rounds.");
+
+        document.querySelector("input").disabled = true;
+        // ADD
+
       }
     },
 
@@ -113,6 +90,7 @@ export default {
           return "";
       }
     },
+
     generateNextRound() {
       this.round++;
       if (this.round < 5) {
@@ -121,6 +99,7 @@ export default {
         console.log(this.emojiIndexes); // log the array of emoji indexes to the console
       }
     },
+
     resetGame() {
       this.score = 0;
       this.round = 0;
@@ -130,8 +109,6 @@ export default {
   },
   mounted() {
     this.generateUniqueEmojis();
-  }
+  },
 };
 </script>
-
-
