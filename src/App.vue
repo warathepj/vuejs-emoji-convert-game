@@ -3,8 +3,18 @@
     <h1>Emoji Convert Game</h1>
     <div v-if="round < 5">
       <h2>{{ emoji }}</h2>
-      <input type="text" v-model="answer" />
+      <!-- <p id="hint1" v-if="!answerSubmitted">{{ hint1 }}</p> -->
+      <p id="hint1" v-if="showHint">{{ hint1 }}</p>
+      <!-- <p>{{ genEmoji }}</p> -->
+
+      <!-- <input type="text" v-model="answer" /> -->
+      <input type="text" v-model="answer" v-bind:disabled="inputDisabled" />
+
       <button @click="checkAnswer">Submit</button>
+      <button @click="displayHint1">Hint 1</button>
+      <!-- <button v-on:click="generateUniqueEmojis" v-bind:disabled="inputDisabled" v-show="showButton">Generate Unique Emojis</button> -->
+      <button v-on:click="generateUniqueEmojis"  v-show="showButton">Restart Game</button>
+
     </div>
     <div v-else>
       <h2>Game Over!</h2>
@@ -18,13 +28,52 @@
 export default {
   data() {
     return {
-      emojis: ["😀", "😂", "🤔", "🤩", "😎", "👍", "❤️", "🎉", "🐶", "🐱"],
+      emojis: [
+        {
+          "emo": "😀",
+          "hint1": "s..."
+        },
+        { 
+          "emo": "😂",
+          "hint1": "l..."
+        },
+        {
+          "emo": "🤔",
+          "hint1": "similar to Consider"
+        },
+        { 
+          "emo": "🤩",
+          "hint1": "s..."
+        },
+        { 
+          "emo": "😎",
+          "hint1": "c..."
+        }, 
+        {
+          "emo": "👍",
+          "hint1": "t..."
+        },
+        {
+          "emo": "❤️",
+          "hint1": "t..."
+        },
+        {
+          "emo": "🎉",
+          "hint1": "t..."
+        },
+            "🐶", "🐱"],
+      // emojis: [
+      //   {"😀"}, "😂", "🤔", "🤩", "😎", "👍", "❤️", "🎉", "🐶", "🐱"],
       emoji: "",
+      hint1: "",
       answer: "",
       score: 0,
       round: 0,
       randomIndex: null,
       roundEmojis: [],
+      inputDisabled: true,
+      showButton: false,
+      showHint: false,
     };
   },
   methods: {
@@ -34,11 +83,30 @@ export default {
         let randomIndex = Math.floor(Math.random() * this.emojis.length);
         if (!this.roundEmojis.includes(randomIndex)) {
           uniqueIndex = true;
-          this.emoji = this.emojis[randomIndex];
+          this.emoji = this.emojis[randomIndex].emo;
+          // this.hint1 = this.emojis[randomIndex].hint1;
           this.randomIndex = randomIndex;
           this.roundEmojis.push(randomIndex);
         }
       }
+      this.inputDisabled = false; // re-enable input field when done
+      this.showButton = false;
+      this.genEmoji = false;
+        console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
+    },
+    displayHint1() {
+      let currentEmojisIndex = this.emojis.findIndex(
+        (item) => item.emo === this.emoji
+      );
+      this.hint1 = this.emojis[currentEmojisIndex].hint1;
+      this.showHint = true;
+  setTimeout(() => {
+    this.showHint = false;
+  }, 5000);
+      console.log("hint1 : " + this.hint1);
+      this.genEmoji = true;
+      console.log("genEmoji from displayHint1() : " + this.genEmoji);
+
     },
     checkAnswer() {
       if (this.answer.toLowerCase() === this.emojiToWord(this.emoji)) {
@@ -52,9 +120,8 @@ export default {
         console.log(this.roundEmojis);
       } else {
         console.log(this.roundEmojis);
-      // console.log("score ", this.score);
-      alert("Your score: " + this.score + " of 5");
-
+        // console.log("score ", this.score);
+        alert("Your score: " + this.score + " of 5");
 
         this.roundEmojis = [];
         this.round = 0;
@@ -63,11 +130,16 @@ export default {
         // ADD
         alert("You have completed all rounds.");
 
-        document.querySelector("input").disabled = true;
+      this.showButton = true;
 
-        // ADD
 
+        this.inputDisabled = true; // disable input field
+        
+
+        
       }
+      // this.answerSubmitted = true;
+      //   console.log("answerSubmitted " + this.answerSubmitted);
     },
 
     emojiToWord(emoji) {
