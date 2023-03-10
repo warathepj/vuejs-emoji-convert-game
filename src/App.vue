@@ -4,7 +4,7 @@
     <div v-if="round < 5">
       <h2>{{ emoji }}</h2>
       <!-- <p id="hint1" v-if="!answerSubmitted">{{ hint1 }}</p> -->
-      <p id="hint1" v-if="showHint">{{ hint1 }}</p>
+      
       <!-- <p>{{ genEmoji }}</p> -->
 
       <!-- <input type="text" v-model="answer" /> -->
@@ -12,9 +12,13 @@
 
       <button @click="checkAnswer">Submit</button>
       <button @click="displayHint1">Hint 1</button>
+      <button @click="displayHint2">Hint 2</button>
+      <p id="hint1" v-if="showHint">{{ hint1 }}</p>
+      <p v-if="showHint2">{{ hint2 }}</p>
       <!-- <button v-on:click="generateUniqueEmojis" v-bind:disabled="inputDisabled" v-show="showButton">Generate Unique Emojis</button> -->
-      <button v-on:click="generateUniqueEmojis"  v-show="showButton">Restart Game</button>
-
+      <button v-on:click="generateUniqueEmojis" v-show="showButton">
+        Restart Game
+      </button>
     </div>
     <div v-else>
       <h2>Game Over!</h2>
@@ -30,42 +34,71 @@ export default {
     return {
       emojis: [
         {
-          "emo": "😀",
-          "hint1": "s..."
-        },
-        { 
-          "emo": "😂",
-          "hint1": "l..."
+          emo: "😀",
+          hint1: "Facial expression",
+          hint2: "sm...",
+          "give up": "smile",
         },
         {
-          "emo": "🤔",
-          "hint1": "similar to Consider"
-        },
-        { 
-          "emo": "🤩",
-          "hint1": "s..."
-        },
-        { 
-          "emo": "😎",
-          "hint1": "c..."
-        }, 
-        {
-          "emo": "👍",
-          "hint1": "t..."
+          emo: "😂",
+          hint1: "Sound of amusement",
+          hint2: "la...",
+          "give up": "laugh",
         },
         {
-          "emo": "❤️",
-          "hint1": "t..."
+          emo: "🤔",
+          hint1: "Similar to consider",
+          hint2: "th...",
+          "give up": "think",
         },
         {
-          "emo": "🎉",
-          "hint1": "t..."
+          emo: "🤩",
+          hint1:
+            "Celestial object that emits light and is visible in the night sky",
+          hint2: ".... eyes",
+          "give up": "star eyes",
         },
-            "🐶", "🐱"],
+        {
+          emo: "😎",
+          hint1: "Awesome",
+          hint2: "co..",
+          "give up": "cool",
+        },
+        {
+          emo: "👍",
+          hint1: "Well done",
+          hint2: ".....s up",
+          "give up": "thumbs up",
+        },
+        {
+          emo: "❤️",
+          hint1:
+            "the organ in the chest that pumps blood through the circulatory system",
+          hint2: "he...",
+          "give up": "heart",
+        },
+        {
+          emo: "🎉",
+          hint1: "Event",
+          hint2: "pa...",
+          "give up": "party",
+        },
+        {
+          emo: "🐶",
+          hint1: "four-legged mammal often kept as a pet, known for its loyalty and friendliness towards humans.",
+          hint2: "d.."
+        },
+        {
+          emo: "🐱",
+          hint1: "a small carnivorous mammal kept as a pet, known for its independence, grace, and agility, and often valued for its ability to hunt rodents.",
+          hint2: "c.."
+        },
+      ],
       // emojis: [
       //   {"😀"}, "😂", "🤔", "🤩", "😎", "👍", "❤️", "🎉", "🐶", "🐱"],
       emoji: "",
       hint1: "",
+      hint2: "",
       answer: "",
       score: 0,
       round: 0,
@@ -74,6 +107,7 @@ export default {
       inputDisabled: true,
       showButton: false,
       showHint: false,
+      showHint2: false,
     };
   },
   methods: {
@@ -92,7 +126,7 @@ export default {
       this.inputDisabled = false; // re-enable input field when done
       this.showButton = false;
       this.genEmoji = false;
-        console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
+      console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
     },
     displayHint1() {
       let currentEmojisIndex = this.emojis.findIndex(
@@ -100,13 +134,25 @@ export default {
       );
       this.hint1 = this.emojis[currentEmojisIndex].hint1;
       this.showHint = true;
-  setTimeout(() => {
-    this.showHint = false;
-  }, 5000);
+      setTimeout(() => {
+        this.showHint = false;
+      }, 5000);
       console.log("hint1 : " + this.hint1);
       this.genEmoji = true;
       console.log("genEmoji from displayHint1() : " + this.genEmoji);
-
+    },
+    displayHint2() {
+      let currentEmojisIndex2 = this.emojis.findIndex(
+        (item) => item.emo === this.emoji
+      );
+      this.hint2 = this.emojis[currentEmojisIndex2].hint2;
+      this.showHint2 = true;
+      setTimeout(() => {
+        this.showHint2 = false;
+      }, 5000);
+      console.log("hint2 : " + this.hint2);
+      this.genEmoji = true;
+      console.log("genEmoji from displayHint2() : " + this.genEmoji);
     },
     checkAnswer() {
       if (this.answer.toLowerCase() === this.emojiToWord(this.emoji)) {
@@ -130,13 +176,9 @@ export default {
         // ADD
         alert("You have completed all rounds.");
 
-      this.showButton = true;
-
+        this.showButton = true;
 
         this.inputDisabled = true; // disable input field
-        
-
-        
       }
       // this.answerSubmitted = true;
       //   console.log("answerSubmitted " + this.answerSubmitted);
