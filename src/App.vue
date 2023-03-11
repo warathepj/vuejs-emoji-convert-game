@@ -8,13 +8,15 @@
       <!-- <p>{{ genEmoji }}</p> -->
 
       <!-- <input type="text" v-model="answer" /> -->
-      <input type="text" v-model="answer" v-bind:disabled="inputDisabled" />
+      <input type="text" v-model="answer" v-bind:disabled="inputDisabled" ref="myInput"/>
 
       <button @click="checkAnswer">Submit</button>
       <button @click="displayHint1">Hint 1</button>
       <button @click="displayHint2">Hint 2</button>
+      <button @click="giveUpFn">Give Up</button>
       <p id="hint1" v-if="showHint">{{ hint1 }}</p>
       <p v-if="showHint2">{{ hint2 }}</p>
+      <p v-if="showGiveUp">{{ giveUp }}</p>
       <!-- <button v-on:click="generateUniqueEmojis" v-bind:disabled="inputDisabled" v-show="showButton">Generate Unique Emojis</button> -->
       <button v-on:click="generateUniqueEmojis" v-show="showButton">
         Restart Game
@@ -29,6 +31,8 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
   data() {
     return {
@@ -37,61 +41,65 @@ export default {
           emo: "😀",
           hint1: "Facial expression",
           hint2: "sm...",
-          "give up": "smile",
+          giveUp: "smile",
         },
         {
           emo: "😂",
           hint1: "Sound of amusement",
           hint2: "la...",
-          "give up": "laugh",
+          giveUp: "laugh",
         },
         {
           emo: "🤔",
           hint1: "Similar to consider",
           hint2: "th...",
-          "give up": "think",
+          giveUp: "think",
         },
         {
           emo: "🤩",
           hint1:
             "Celestial object that emits light and is visible in the night sky",
           hint2: ".... eyes",
-          "give up": "star eyes",
+          giveUp: "star eyes",
         },
         {
           emo: "😎",
           hint1: "Awesome",
           hint2: "co..",
-          "give up": "cool",
+          giveUp: "cool",
         },
         {
           emo: "👍",
           hint1: "Well done",
           hint2: ".....s up",
-          "give up": "thumbs up",
+          giveUp: "thumbs up",
         },
         {
           emo: "❤️",
           hint1:
             "the organ in the chest that pumps blood through the circulatory system",
           hint2: "he...",
-          "give up": "heart",
+          giveUp: "heart",
         },
         {
           emo: "🎉",
           hint1: "Event",
           hint2: "pa...",
-          "give up": "party",
+          giveUp: "party",
         },
         {
           emo: "🐶",
           hint1: "four-legged mammal often kept as a pet, known for its loyalty and friendliness towards humans.",
-          hint2: "d.."
+          hint2: "d..",
+          giveUp: "dog",
+
         },
         {
           emo: "🐱",
           hint1: "a small carnivorous mammal kept as a pet, known for its independence, grace, and agility, and often valued for its ability to hunt rodents.",
-          hint2: "c.."
+          hint2: "c..",
+          giveUp: "cat",
+
         },
       ],
       // emojis: [
@@ -99,6 +107,7 @@ export default {
       emoji: "",
       hint1: "",
       hint2: "",
+      giveUp: "",
       answer: "",
       score: 0,
       round: 0,
@@ -108,9 +117,11 @@ export default {
       showButton: false,
       showHint: false,
       showHint2: false,
+      showGiveUp: false,
     };
   },
   methods: {
+    
     generateUniqueEmojis() {
       let uniqueIndex = false;
       while (!uniqueIndex) {
@@ -128,6 +139,10 @@ export default {
       this.genEmoji = false;
       console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
     },
+    focusInput() {
+    this.$refs.myInput.focus();
+    console.log("focus");
+  },
     displayHint1() {
       let currentEmojisIndex = this.emojis.findIndex(
         (item) => item.emo === this.emoji
@@ -154,9 +169,27 @@ export default {
       this.genEmoji = true;
       console.log("genEmoji from displayHint2() : " + this.genEmoji);
     },
+    giveUpFn() {
+      let currentEmojisIndex3 = this.emojis.findIndex(
+        (item) => item.emo === this.emoji
+      );
+      this.giveUp = this.emojis[currentEmojisIndex3].giveUp;
+      this.showGiveUp = true;
+      setTimeout(() => {
+        this.showGiveUp = false;
+      }, 5000);
+      this.inputDisabled = true; // disable input field
+
+      console.log("hint2 : " + this.giveUp);
+      this.genEmoji = true;
+      console.log("genEmoji from giveUpFn() : " + this.genEmoji);
+    },
     checkAnswer() {
       if (this.answer.toLowerCase() === this.emojiToWord(this.emoji)) {
         this.score++;
+        alert("correct answer");
+      } else {
+        alert("wrong answer");
       }
       // console.log("score ", this.score);
       this.answer = "";
@@ -229,6 +262,7 @@ export default {
   },
   mounted() {
     this.generateUniqueEmojis();
+    this.focusInput();
   },
 };
 </script>
