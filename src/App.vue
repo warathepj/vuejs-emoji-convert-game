@@ -32,78 +32,80 @@
 
 <script>
 import { ref } from 'vue';
+import emojis from "./db.json";
 
 export default {
   data() {
     return {
-      emojis: [
-        {
-          emo: "😀",
-          hint1: "Facial expression",
-          hint2: "sm...",
-          giveUp: "smile",
-        },
-        {
-          emo: "😂",
-          hint1: "Sound of amusement",
-          hint2: "la...",
-          giveUp: "laugh",
-        },
-        {
-          emo: "🤔",
-          hint1: "Similar to consider",
-          hint2: "th...",
-          giveUp: "think",
-        },
-        {
-          emo: "🤩",
-          hint1:
-            "Celestial object that emits light and is visible in the night sky",
-          hint2: ".... eyes",
-          giveUp: "star eyes",
-        },
-        {
-          emo: "😎",
-          hint1: "Awesome",
-          hint2: "co..",
-          giveUp: "cool",
-        },
-        {
-          emo: "👍",
-          hint1: "Well done",
-          hint2: ".....s up",
-          giveUp: "thumbs up",
-        },
-        {
-          emo: "❤️",
-          hint1:
-            "the organ in the chest that pumps blood through the circulatory system",
-          hint2: "he...",
-          giveUp: "heart",
-        },
-        {
-          emo: "🎉",
-          hint1: "Event",
-          hint2: "pa...",
-          giveUp: "party",
-        },
-        {
-          emo: "🐶",
-          hint1: "four-legged mammal often kept as a pet, known for its loyalty and friendliness towards humans.",
-          hint2: "d..",
-          giveUp: "dog",
+      // emojis: [
+      //   {
+      //     emo: "😀",
+      //     hint1: "Facial expression",
+      //     hint2: "sm...",
+      //     giveUp: "smile",
+      //   },
+      //   {
+      //     emo: "😂",
+      //     hint1: "Sound of amusement",
+      //     hint2: "la...",
+      //     giveUp: "laugh",
+      //   },
+      //   {
+      //     emo: "🤔",
+      //     hint1: "Similar to consider",
+      //     hint2: "th...",
+      //     giveUp: "think",
+      //   },
+      //   {
+      //     emo: "🤩",
+      //     hint1:
+      //       "Celestial object that emits light and is visible in the night sky",
+      //     hint2: ".... eyes",
+      //     giveUp: "star eyes",
+      //   },
+      //   {
+      //     emo: "😎",
+      //     hint1: "Awesome",
+      //     hint2: "co..",
+      //     giveUp: "cool",
+      //   },
+      //   {
+      //     emo: "👍",
+      //     hint1: "Well done",
+      //     hint2: ".....s up",
+      //     giveUp: "thumbs up",
+      //   },
+      //   {
+      //     emo: "❤️",
+      //     hint1:
+      //       "the organ in the chest that pumps blood through the circulatory system",
+      //     hint2: "he...",
+      //     giveUp: "heart",
+      //   },
+      //   {
+      //     emo: "🎉",
+      //     hint1: "Event",
+      //     hint2: "pa...",
+      //     giveUp: "party",
+      //   },
+      //   {
+      //     emo: "🐶",
+      //     hint1: "four-legged mammal often kept as a pet, known for its loyalty and friendliness towards humans.",
+      //     hint2: "d..",
+      //     giveUp: "dog",
 
-        },
-        {
-          emo: "🐱",
-          hint1: "a small carnivorous mammal kept as a pet, known for its independence, grace, and agility, and often valued for its ability to hunt rodents.",
-          hint2: "c..",
-          giveUp: "cat",
+      //   },
+      //   {
+      //     emo: "🐱",
+      //     hint1: "a small carnivorous mammal kept as a pet, known for its independence, grace, and agility, and often valued for its ability to hunt rodents.",
+      //     hint2: "c..",
+      //     giveUp: "cat",
 
-        },
-      ],
+      //   },
+      // ],
       // emojis: [
       //   {"😀"}, "😂", "🤔", "🤩", "😎", "👍", "❤️", "🎉", "🐶", "🐱"],
+      emojis: emojis.emojis,
       emoji: "",
       hint1: "",
       hint2: "",
@@ -122,27 +124,53 @@ export default {
   },
   methods: {
     
-    generateUniqueEmojis() {
-      let uniqueIndex = false;
-      while (!uniqueIndex) {
-        let randomIndex = Math.floor(Math.random() * this.emojis.length);
-        if (!this.roundEmojis.includes(randomIndex)) {
-          uniqueIndex = true;
-          this.emoji = this.emojis[randomIndex].emo;
-          // this.hint1 = this.emojis[randomIndex].hint1;
-          this.randomIndex = randomIndex;
-          this.roundEmojis.push(randomIndex);
-        }
-      }
-      this.inputDisabled = false; // re-enable input field when done
+    // generateUniqueEmojis() {
+    //   let uniqueIndex = false;
+    //   while (!uniqueIndex) {
+    //     let randomIndex = Math.floor(Math.random() * this.emojis.length);
+    //     if (!this.roundEmojis.includes(randomIndex)) {
+    //       uniqueIndex = true;
+    //       this.emoji = this.emojis[randomIndex].emo;
+    //       // this.hint1 = this.emojis[randomIndex].hint1;
+    //       this.randomIndex = randomIndex;
+    //       this.roundEmojis.push(randomIndex);
+    //     }
+    //   }
+    //   this.inputDisabled = false; // re-enable input field when done
+    //   this.showButton = false;
+    //   this.genEmoji = false;
+    //   console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
+    // },
+  //   focusInput() {
+  //   this.$refs.myInput.focus();
+  //   console.log("focus");
+  // },
+
+  async generateUniqueEmojis() {
+  let uniqueIndex = false;
+
+  // Make HTTP request to fetch the data
+  const response = await fetch('src/db.json');
+  const data = await response.json();
+
+  while (!uniqueIndex) {
+    let randomIndex = Math.floor(Math.random() * data.emojis.length);
+
+    if (!this.roundEmojis.includes(randomIndex)) {
+      uniqueIndex = true;
+      this.emoji = data.emojis[randomIndex].emo;
+      // this.hint1 = data.emojis[randomIndex].hint1;
+      this.randomIndex = randomIndex;
+      this.roundEmojis.push(randomIndex);
+    }
+  }
+  this.inputDisabled = false; // re-enable input field when done
       this.showButton = false;
       this.genEmoji = false;
       console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
-    },
-    focusInput() {
-    this.$refs.myInput.focus();
-    console.log("focus");
-  },
+},
+
+
     displayHint1() {
       let currentEmojisIndex = this.emojis.findIndex(
         (item) => item.emo === this.emoji
@@ -217,32 +245,42 @@ export default {
       //   console.log("answerSubmitted " + this.answerSubmitted);
     },
 
+    // emojiToWord(emoji) {
+    //   switch (emoji) {
+    //     case "😀":
+    //       return "smile";
+    //     case "😂":
+    //       return "laugh";
+    //     case "🤔":
+    //       return "think";
+    //     case "🤩":
+    //       return "star eyes";
+    //     case "😎":
+    //       return "cool";
+    //     case "👍":
+    //       return "thumbs up";
+    //     case "❤️":
+    //       return "heart";
+    //     case "🎉":
+    //       return "party";
+    //     case "🐶":
+    //       return "dog";
+    //     case "🐱":
+    //       return "cat";
+    //     default:
+    //       return "";
+    //   }
+    // },
+
     emojiToWord(emoji) {
-      switch (emoji) {
-        case "😀":
-          return "smile";
-        case "😂":
-          return "laugh";
-        case "🤔":
-          return "think";
-        case "🤩":
-          return "star eyes";
-        case "😎":
-          return "cool";
-        case "👍":
-          return "thumbs up";
-        case "❤️":
-          return "heart";
-        case "🎉":
-          return "party";
-        case "🐶":
-          return "dog";
-        case "🐱":
-          return "cat";
-        default:
-          return "";
+      for (let i = 0; i < this.emojis.length; i++) {
+        if (this.emojis[i].emo === emoji) {
+          return this.emojis[i].giveUp;
+        }
       }
+      return "";
     },
+
 
     generateNextRound() {
       this.round++;
@@ -262,7 +300,7 @@ export default {
   },
   mounted() {
     this.generateUniqueEmojis();
-    this.focusInput();
+    // this.focusInput();
   },
 };
 </script>
