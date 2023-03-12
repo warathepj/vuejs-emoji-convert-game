@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+// import { ref } from 'vue';
 import emojis from "./db.json";
 
 export default {
@@ -150,7 +150,8 @@ export default {
   let uniqueIndex = false;
 
   // Make HTTP request to fetch the data
-  const response = await fetch('src/db.json');
+  // const response = await fetch('src/db.json');
+  const response = await fetch('https://warathepj.github.io/vuejs-emoji-convert.json');
   const data = await response.json();
 
   while (!uniqueIndex) {
