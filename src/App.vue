@@ -1,19 +1,23 @@
 <template>
-  <div>
-    <h1>Emoji Convert Game</h1>
+  <div class="p-4 text-center bg-teal-300">
+    <h1 class="text-3xl font-bold text-white">Emoji Convert Game</h1>
     <div v-if="round < 5">
       <h2>{{ emoji }}</h2>
       <!-- <p id="hint1" v-if="!answerSubmitted">{{ hint1 }}</p> -->
-      
+
       <!-- <p>{{ genEmoji }}</p> -->
 
       <!-- <input type="text" v-model="answer" /> -->
-      <input type="text" v-model="answer" v-bind:disabled="inputDisabled" ref="myInput"/>
+      <!-- <input type="text" v-model="answer" v-bind:disabled="inputDisabled" /> -->
+      <!-- <input type="text" v-model="answer" v-bind:disabled="inputDisabled" ref="myInput"/> -->
+      <input
+        type="text"
+        v-el:focusInput
+        v-model="answer"
+        v-bind:disabled="inputDisabled"
+        class="focus:outline-none"
+      />
 
-      <button @click="checkAnswer">Submit</button>
-      <button @click="displayHint1">Hint 1</button>
-      <button @click="displayHint2">Hint 2</button>
-      <button @click="giveUpFn">Give Up</button>
       <p id="hint1" v-if="showHint">{{ hint1 }}</p>
       <p v-if="showHint2">{{ hint2 }}</p>
       <p v-if="showGiveUp">{{ giveUp }}</p>
@@ -27,6 +31,12 @@
       <p>Your final score is {{ score }}.</p>
       <button @click="resetGame">Play Again</button>
     </div>
+    <footer>
+      <button @click="checkAnswer">Submit</button>
+      <button @click="displayHint1">Hint 1</button>
+      <button @click="displayHint2">Hint 2</button>
+      <button @click="giveUpFn">Give Up</button>
+    </footer>
   </div>
 </template>
 
@@ -120,10 +130,99 @@ export default {
       showHint: false,
       showHint2: false,
       showGiveUp: false,
+      // showInput: false
     };
   },
   methods: {
-    
+    correctAlert() {
+      let timerInterval;
+      this.$swal({
+        title: "you're correct!",
+        html: "I will close in <b></b> milliseconds.",
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: () => {
+          this.$swal.showLoading();
+          const b = this.$swal.getHtmlContainer().querySelector("b");
+          timerInterval = setInterval(() => {
+            b.textContent = this.$swal.getTimerLeft();
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === this.$swal.DismissReason.timer) {
+          console.log("I was closed by the timer");
+        }
+      });
+    },
+    wrongAlert() {
+      let timerInterval;
+      this.$swal({
+        title: "you're wrong!",
+        html: "I will close in <b></b> milliseconds.",
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: () => {
+          this.$swal.showLoading();
+          const b = this.$swal.getHtmlContainer().querySelector("b");
+          timerInterval = setInterval(() => {
+            b.textContent = this.$swal.getTimerLeft();
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === this.$swal.DismissReason.timer) {
+          console.log("I was closed by the timer");
+        }
+      });
+    },
+    scoreAlert() {
+      let timerInterval;
+      this.$swal({
+        title: `You scored ${this.score} out of 5`,
+        html: "I will close in <b></b> milliseconds.",
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          this.$swal.showLoading();
+          const b = this.$swal.getHtmlContainer().querySelector("b");
+          timerInterval = setInterval(() => {
+            b.textContent = this.$swal.getTimerLeft();
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === this.$swal.DismissReason.timer) {
+          console.log("I was closed by the timer");
+        }
+      });
+    },
+//     scoreAlert() {
+//       this.$swal({
+//   title: 'Your score',
+//   text: `You scored ${this.score} out of 5`,
+//   icon: 'success',
+//   showCloseButton: true
+// });
+//     },
+    // scoreAlert() {
+    //   this.$swal(`You scored ${this.score} out of 5`);
+    // },
+
+    // showAlert() {
+    //   // Use sweetalert2
+    //   this.$swal("correct answer");
+    // },
+
     // generateUniqueEmojis() {
     //   let uniqueIndex = false;
     //   while (!uniqueIndex) {
@@ -141,36 +240,40 @@ export default {
     //   this.genEmoji = false;
     //   console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
     // },
-  //   focusInput() {
-  //   this.$refs.myInput.focus();
-  //   console.log("focus");
-  // },
+    //   focusInput() {
+    //   this.$refs.myInput.focus();
+    //   console.log("focus");
+    // },
 
-  async generateUniqueEmojis() {
-  let uniqueIndex = false;
+    async generateUniqueEmojis() {
+      let uniqueIndex = false;
 
-  // Make HTTP request to fetch the data
-  // const response = await fetch('src/db.json');
-  const response = await fetch('https://warathepj.github.io/vuejs-emoji-convert.json');
-  const data = await response.json();
+      // Make HTTP request to fetch the data
+      // const response = await fetch('src/db.json');
+      const response = await fetch(
+        "https://warathepj.github.io/vuejs-emoji-convert.json"
+      );
+      const data = await response.json();
 
-  while (!uniqueIndex) {
-    let randomIndex = Math.floor(Math.random() * data.emojis.length);
+      while (!uniqueIndex) {
+        let randomIndex = Math.floor(Math.random() * data.emojis.length);
 
-    if (!this.roundEmojis.includes(randomIndex)) {
-      uniqueIndex = true;
-      this.emoji = data.emojis[randomIndex].emo;
-      // this.hint1 = data.emojis[randomIndex].hint1;
-      this.randomIndex = randomIndex;
-      this.roundEmojis.push(randomIndex);
-    }
-  }
-  this.inputDisabled = false; // re-enable input field when done
+        if (!this.roundEmojis.includes(randomIndex)) {
+          uniqueIndex = true;
+          this.emoji = data.emojis[randomIndex].emo;
+          // this.hint1 = data.emojis[randomIndex].hint1;
+          this.randomIndex = randomIndex;
+          this.roundEmojis.push(randomIndex);
+        }
+      }
+      this.inputDisabled = false; // re-enable input field when done
       this.showButton = false;
       this.genEmoji = false;
-      console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
-},
+      // this.$swal('Hello Vue world!')
+      // this.showInput = true;
 
+      console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
+    },
 
     displayHint1() {
       let currentEmojisIndex = this.emojis.findIndex(
@@ -198,6 +301,7 @@ export default {
       this.genEmoji = true;
       console.log("genEmoji from displayHint2() : " + this.genEmoji);
     },
+
     giveUpFn() {
       let currentEmojisIndex3 = this.emojis.findIndex(
         (item) => item.emo === this.emoji
@@ -213,12 +317,15 @@ export default {
       this.genEmoji = true;
       console.log("genEmoji from giveUpFn() : " + this.genEmoji);
     },
+
     checkAnswer() {
       if (this.answer.toLowerCase() === this.emojiToWord(this.emoji)) {
         this.score++;
-        alert("correct answer");
+        this.correctAlert();
+        // alert("correct answer");
       } else {
-        alert("wrong answer");
+        // alert("wrong answer");
+        this.wrongAlert();
       }
       // console.log("score ", this.score);
       this.answer = "";
@@ -229,14 +336,15 @@ export default {
       } else {
         console.log(this.roundEmojis);
         // console.log("score ", this.score);
-        alert("Your score: " + this.score + " of 5");
+        // alert("Your score: " + this.score + " of 5");
+        alert("You have completed all rounds.");
+        this.scoreAlert();
 
         this.roundEmojis = [];
         this.round = 0;
         this.score = 0;
 
         // ADD
-        alert("You have completed all rounds.");
 
         this.showButton = true;
 
@@ -282,7 +390,6 @@ export default {
       return "";
     },
 
-
     generateNextRound() {
       this.round++;
       if (this.round < 5) {
@@ -298,10 +405,11 @@ export default {
       this.generateUniqueEmojis();
       this.emojiIndexes = []; // clear the array of emoji indexes when the game is reset
     },
+
+    // Define a custom directive that focuses an input element
   },
   mounted() {
     this.generateUniqueEmojis();
-    // this.focusInput();
   },
 };
 </script>
