@@ -1,70 +1,53 @@
 <template>
-  <div class="p-4 text-center bg-teal-300">
-    <h1 class="text-3xl font-bold text-white">Emoji Convert Game</h1>
+  <div class="min-h-screen p-4 text-center bg-teal-300">
+    <h1 class="text-3xl mb-5 font-bold text-white">Emoji Convert Game</h1>
+    <RouterView />
     <div v-if="round < 5">
-      <h2>{{ emoji }}</h2>
-      <!-- <p id="hint1" v-if="!answerSubmitted">{{ hint1 }}</p> -->
-
-      <!-- <p>{{ genEmoji }}</p> -->
+      <h2 class="text-[60px]">{{ emoji }}</h2>
+      
 
       <!-- <input type="text" v-model="answer" /> -->
       <!-- <input type="text" v-model="answer" v-bind:disabled="inputDisabled" /> -->
       <!-- <input type="text" v-model="answer" v-bind:disabled="inputDisabled" ref="myInput"/> -->
-      <input
-        type="text"
-        v-el:focusInput
-        v-model="answer"
-        v-bind:disabled="inputDisabled"
-        class="focus:outline-none"
-      />
+      <div class="p-3 flex flex-col bg-teal-600">
+        <input
+          type="text"
+          v-el:focusInput
+          v-model="answer"
+          v-bind:disabled="inputDisabled"
+          class="focus:outline-none"
+        />
 
-      <p id="hint1" v-if="showHint">{{ hint1 }}</p>
-      <p v-if="showHint2">{{ hint2 }}</p>
-      <p v-if="showGiveUp">{{ giveUp }}</p>
-      <!-- <button v-on:click="generateUniqueEmojis" v-bind:disabled="inputDisabled" v-show="showButton">Generate Unique Emojis</button> -->
-      <button v-on:click="generateUniqueEmojis" v-show="showButton">
-        Restart Game
-      </button>
-    </div>
-    <div v-else>
+        <p id="hint1" v-if="showHint">{{ hint1 }}</p>
+        <p v-if="showHint2">{{ hint2 }}</p>
+        <p v-if="showGiveUp">{{ giveUp }}</p>
+        <!-- <button v-on:click="generateUniqueEmojis" v-bind:disabled="inputDisabled" v-show="showButton">Generate Unique Emojis</button> -->
+        <button v-on:click="generateUniqueEmojis" v-show="showButton">
+          Restart Game
+        </button>
+      <!-- <div v-else>
       <h2>Game Over!</h2>
       <p>Your final score is {{ score }}.</p>
       <button @click="resetGame">Play Again</button>
-    </div>
-    <footer>
+    </div> -->
       <button @click="checkAnswer">Submit</button>
       <button @click="displayHint1">Hint 1</button>
       <button @click="displayHint2">Hint 2</button>
       <button @click="giveUpFn">Give Up</button>
-    </footer>
+    </div>
+
+    </div>
   </div>
 </template>
 
 <script>
 // import { ref } from 'vue';
 import emojis from "./db.json";
+import { RouterLink, RouterView } from "vue-router";
 
 export default {
   data() {
     return {
-      // emojis: [
-      //   {
-      //     emo: "😀",
-      //     hint1: "Facial expression",
-      //     hint2: "sm...",
-      //     giveUp: "smile",
-      //   },
-      //   {
-      //     emo: "😂",
-      //     hint1: "Sound of amusement",
-      //     hint2: "la...",
-      //     giveUp: "laugh",
-      //   },
-      //   {
-      //     emo: "🤔",
-      //     hint1: "Similar to consider",
-      //     hint2: "th...",
-      //     giveUp: "think",
       //   },
       //   {
       //     emo: "🤩",
@@ -187,7 +170,7 @@ export default {
       this.$swal({
         title: `You scored ${this.score} out of 5`,
         html: "I will close in <b></b> milliseconds.",
-        timer: 2000,
+        timer: 3000,
         timerProgressBar: true,
         didOpen: () => {
           this.$swal.showLoading();
@@ -206,14 +189,14 @@ export default {
         }
       });
     },
-//     scoreAlert() {
-//       this.$swal({
-//   title: 'Your score',
-//   text: `You scored ${this.score} out of 5`,
-//   icon: 'success',
-//   showCloseButton: true
-// });
-//     },
+    //     scoreAlert() {
+    //       this.$swal({
+    //   title: 'Your score',
+    //   text: `You scored ${this.score} out of 5`,
+    //   icon: 'success',
+    //   showCloseButton: true
+    // });
+    //     },
     // scoreAlert() {
     //   this.$swal(`You scored ${this.score} out of 5`);
     // },
@@ -337,7 +320,7 @@ export default {
         console.log(this.roundEmojis);
         // console.log("score ", this.score);
         // alert("Your score: " + this.score + " of 5");
-        alert("You have completed all rounds.");
+        // alert("You have completed all rounds.");
         this.scoreAlert();
 
         this.roundEmojis = [];

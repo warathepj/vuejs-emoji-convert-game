@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
 
 // import Vue from 'vue'
 import VueSweetalert2 from 'vue-sweetalert2'
@@ -14,6 +15,7 @@ import './assets/main.css'
 
 const app = createApp(App)
 
+app.use(router)
 app.use(VueSweetalert2);
 
 app.mount('#app');
