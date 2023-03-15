@@ -1,5 +1,8 @@
 <template lang="">
-  <div class="p-2 bg-teal-600">
+  <div class="a">
+    <h1 class="text-[60px] mb-3">👋🌎👨‍👩‍👧‍👦💬</h1>
+
+  <div class="p-2 rounded-lg shadow-xl shadow-teal-900 bg-teal-600">
     <h3 class="text-xl mb-5 font-bold text-white">How to Play:</h3>
     <ul class="text-white">
       <li>
@@ -25,8 +28,15 @@
       </li>
     </ul>
   </div>
+  <RouterLink to="/game">
+
+    <button class="mt-8 p-7 rounded-lg bg-white text-3xl text-teal-600 shadow-md shadow-teal-900 hover:bg-teal-100">START GAME</button>
+  </RouterLink>
+</div>
 </template>
 <script>
+import { RouterLink } from "vue-router";
+
 export default {};
 </script>
 <style lang=""></style>

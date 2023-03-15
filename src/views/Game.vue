@@ -2,27 +2,41 @@
     <div class="min-h-screen p-4 text-center bg-teal-300">
       
       <div v-if="round < 5">
-        <h2 class="text-[60px]">{{ emoji }}</h2>
-        <div class="p-3 flex flex-col bg-teal-600">
+        <Suspense>
+          <template #default>
+
+            <h2 class="text-[60px]">{{ emoji }}</h2>
+          </template>
+          <template #fallback>Loading....</template>
+        </Suspense>
+        <div class="h-56 text-2xl">
+
+          <h3 v-show="showHint">{{ hint1 }}</h3>
+            <h3 v-show="showHint2">{{ hint2 }}</h3>
+            <h3 v-show="showGiveUp">{{ giveUp }}</h3>
+        </div>
+        <div class="h-72 p-3 rounded-t-3xl flex flex-col items-center bg-teal-600 fixed bottom-0 left-0 w-full">
           <input
             type="text"
             v-el:focusInput
             v-model="answer"
             v-bind:disabled="inputDisabled"
-            class="focus:outline-none"
+            class="focus:outline-none input-field"
           />
-  
-          <p id="hint1" v-if="showHint">{{ hint1 }}</p>
-          <p v-if="showHint2">{{ hint2 }}</p>
-          <p v-if="showGiveUp">{{ giveUp }}</p>
-          <button v-on:click="generateUniqueEmojis" v-show="showButton">
-            Restart Game
-          </button>
-  
-        <button @click="checkAnswer">Submit</button>
+  <div class="flex flex-col">
+    <button @click="checkAnswer" class="w-48 p-2 rounded-xl bg-teal-300 text-2xl text-white">Submit</button>
         <button @click="displayHint1">Hint 1</button>
         <button @click="displayHint2">Hint 2</button>
         <button @click="giveUpFn">Give Up</button>
+        <button @click="giveUpFn">How to play</button>
+        <button v-on:click="generateUniqueEmojis" v-show="showButton">
+            Restart Game
+          </button>
+  </div>
+          
+          
+  
+        
       </div>
   
       </div>
@@ -263,3 +277,10 @@
     },
   };
   </script>
+
+<style scoped>
+.input-field {
+  width: 300px;
+  height: 40px;
+}
+</style>
