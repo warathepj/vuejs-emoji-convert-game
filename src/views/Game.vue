@@ -1,28 +1,28 @@
 <template>
   <div class="min-h-screen p-4 text-center bg-teal-300">
     <div v-if="round < 5">
-      <Suspense>
-        <template #default>
           <h2 class="text-[60px]">{{ emoji }}</h2>
-        </template>
-        <template #fallback>Loading....</template>
-      </Suspense>
       <div class="h-56 text-2xl">
         <h3 v-show="showHint" class="text-yellow-300">{{ hint1 }}</h3>
         <h3 v-show="showHint2" class="text-yellow-500">{{ hint2 }}</h3>
         <h3 v-show="showGiveUp" class="text-red-500">{{ giveUp }}</h3>
       </div>
       <div
-        class="h-72 p-3 rounded-t-3xl flex flex-col items-center bg-teal-600 fixed bottom-0 left-0 w-full"
+        class="h-[430px] p-3 rounded-t-3xl flex flex-col items-center bg-teal-600 fixed bottom-0 left-0 w-full"
       >
+      <div class=" relative group">
+      <!-- <div class="w-56 relative group"> -->
         <input
           type="text"
+          id="username" required class="w-full h-10 px-4 text-sm peer bg-gray-100 outline-none focus:outline-none input-field"
+          
           v-el:focusInput
           v-model="answer"
           v-bind:disabled="inputDisabled"
-          class="focus:outline-none input-field"
         />
-        <div class="flex flex-col">
+        <label for="answer" class="transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Answer here 👉</label>
+      </div>
+        <div class="mt-3 flex flex-col gap-y-3">
           <button
             @click="checkAnswer"
             class="w-48 p-2 rounded-xl bg-teal-300 hover:bg-teal-500 text-2xl text-white"
@@ -54,7 +54,11 @@
               How to play
             </button>
           </RouterLink>
-          <button v-on:click="generateUniqueEmojis" v-show="showButton">
+          <button 
+            v-on:click="generateUniqueEmojis" 
+            v-show="showButton"
+            class="w-48 p-2 rounded-xl bg-white hover:bg-gray-500 text-2xl text-teal-500"
+            >
             Restart Game
           </button>
         </div>
