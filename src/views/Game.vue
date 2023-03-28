@@ -8,13 +8,13 @@
         <h3 v-show="showGiveUp" class="text-red-500">{{ giveUp }}</h3>
       </div>
       <div
-        class="h-[430px] p-3 rounded-t-3xl flex flex-col items-center bg-teal-600 fixed bottom-0 left-0 w-full"
+        class="h-[430px] md:h-[500px] lg:h-[300px] p-3 lg:p-0 rounded-t-3xl flex flex-col items-center bg-teal-600 fixed bottom-0 left-0 w-full"
       >
       <div class=" relative group">
       <!-- <div class="w-56 relative group"> -->
         <input
           type="text"
-          id="username" required class="w-full h-10 px-4 text-sm peer bg-gray-100 outline-none focus:outline-none input-field"
+          id="username" required class="w-full h-10 px-4 md:mt-5 md:mb-6 text-sm peer bg-gray-100 outline-none focus:outline-none input-field"
           
           v-el:focusInput
           v-model="answer"
@@ -22,45 +22,56 @@
         />
         <label for="answer" class="transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Answer here 👉</label>
       </div>
-        <div class="mt-3 flex flex-col gap-y-3">
+        <div class="mt-3 lg:mt-5 flex flex-col gap-y-3 md:gap-y-5 lg:gap-y-5">
+          <!-- <div class="lg:flex lg:flex-row lg:justify-center lg:gap-x-8"> -->
+          <div class="md:flex md:flex-row md:justify-center md:gap-x-8">
+          
           <button
             @click="checkAnswer"
-            class="w-48 p-2 rounded-xl bg-teal-300 hover:bg-teal-500 text-2xl text-white"
+            class="w-48 p-2 mb-3 md:mb-8 rounded-xl bg-teal-300 hover:bg-teal-500 text-2xl text-white"
           >
             Submit
           </button>
-          <button 
-            @click="displayHint1"
-            class="w-48 p-2 rounded-xl bg-yellow-300 hover:bg-yellow-500 text-2xl text-white"
-          >
-            Hint 1
-          </button>
-          <button 
-            @click="displayHint2"
-            class="w-48 p-2 rounded-xl bg-yellow-300 hover:bg-yellow-500 text-2xl text-white"
-          >
-            Hint 2
-          </button>
+            
+            <button 
+              @click="displayHint1"
+              class="w-48 p-2 md:mb-8 rounded-xl bg-yellow-300 hover:bg-yellow-500 text-2xl text-white"
+            >
+              Hint 1
+            </button>
+          </div>
+          <div class="md:flex md:flex-row md:justify-center md:gap-x-8">
+            
+            <button 
+              @click="displayHint2"
+              class="w-48 p-2 mb-3 md:mb-8 rounded-xl bg-yellow-300 hover:bg-yellow-500 text-2xl text-white"
+            >
+              Hint 2
+            </button>
           <button 
             @click="giveUpFn"
-            class="w-48 p-2 rounded-xl bg-red-300 hover:bg-red-500 text-2xl text-white"
+            class="w-48 p-2 md:mb-8 rounded-xl bg-red-300 hover:bg-red-500 text-2xl text-white"
           >
             Give Up
           </button>
-          <RouterLink to="/">
+          </div>
+          <div class="md:flex md:flex-row md:justify-center md:gap-x-8">
+            
+            <RouterLink to="/">
+              <button 
+                class="w-48 p-2 mb-3 rounded-xl bg-teal-300 hover:bg-teal-500 text-2xl text-white"
+              >
+                How to play
+              </button>
+            </RouterLink>
             <button 
-              class="w-48 p-2 rounded-xl bg-teal-300 hover:bg-teal-500 text-2xl text-white"
-            >
-              How to play
+              v-on:click="generateUniqueEmojis" 
+              v-show="showButton"
+              class="w-48 p-2 mb-3 rounded-xl bg-white hover:bg-gray-500 text-2xl text-teal-500"
+              >
+              Restart Game
             </button>
-          </RouterLink>
-          <button 
-            v-on:click="generateUniqueEmojis" 
-            v-show="showButton"
-            class="w-48 p-2 rounded-xl bg-white hover:bg-gray-500 text-2xl text-teal-500"
-            >
-            Restart Game
-          </button>
+          </div>
         </div>
       </div>
     </div>
