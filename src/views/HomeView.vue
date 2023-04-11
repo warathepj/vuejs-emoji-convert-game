@@ -1,8 +1,8 @@
 <template lang="">
   <div class="flex flex-col items-center">
-    <h1 class="text-[60px] lg:text-4xl mb-3 md:mb-7 lg:mb-0">👋🌎👨‍👩‍👧‍👦💬</h1>
+    <h1 class="text-[60px] lg:text-4xl mb-3 md:mb-7 lg:mb-0 xl:mb-9">👋🌎👨‍👩‍👧‍👦💬</h1>
 
-  <div class="md:mt-10 lg:mt-2 p-2 md:p-4 md:h-[430px] lg:h-80 lg:w-[800px] self-center rounded-lg shadow-xl shadow-teal-900 bg-teal-600">
+  <div class="md:mt-10 lg:mt-2 xl:mb-8 p-2 md:p-4 md:h-[430px] lg:h-80 lg:w-[800px] self-center rounded-lg shadow-xl shadow-teal-900 bg-teal-600">
     <h3 class="text-xl mb-5 font-bold text-white">How to Play:</h3>
     <ul class="md:text-lg lg:text-base text-white">
       <li>

@@ -1,39 +1,49 @@
 <template>
   <div class="min-h-screen p-4 text-center bg-teal-300">
     <div v-if="round < 5">
-          <h2 class="text-[60px]">{{ emoji }}</h2>
+      <h2 class="text-[60px]">{{ emoji }}</h2>
       <div class="h-56 text-2xl">
         <h3 v-show="showHint" class="text-yellow-300">{{ hint1 }}</h3>
         <h3 v-show="showHint2" class="text-yellow-500">{{ hint2 }}</h3>
         <h3 v-show="showGiveUp" class="text-red-500">{{ giveUp }}</h3>
+        <h3 v-show="showRestart" class="text-red-500">
+          Press "Restart Game" if you want to restart game.
+        </h3>
+        <h3 v-show="showPressSubmit" class="text-black">
+          Press "Submit" if you want to play next game.
+        </h3>
       </div>
       <div
-        class="h-[430px] md:h-[500px] lg:h-[300px] p-3 lg:p-0 rounded-t-3xl flex flex-col items-center bg-teal-600 fixed bottom-0 left-0 w-full"
+        class="h-[430px] md:h-[500px] lg:h-[300px] xl:h-[315px] p-3 lg:p-0 rounded-t-3xl flex flex-col items-center bg-teal-600 fixed bottom-0 left-0 w-full"
       >
-      <div class=" relative group">
-      <!-- <div class="w-56 relative group"> -->
-        <input
-          type="text"
-          id="username" required class="w-full h-10 px-4 md:mt-5 md:mb-6 text-sm peer bg-gray-100 outline-none focus:outline-none input-field"
-          
-          v-el:focusInput
-          v-model="answer"
-          v-bind:disabled="inputDisabled"
-        />
-        <label for="answer" class="transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Answer here 👉</label>
-      </div>
-        <div class="mt-3 lg:mt-5 flex flex-col gap-y-3 md:gap-y-5 lg:gap-y-5">
+        <div class="relative group">
+          <!-- <div class="w-56 relative group"> -->
+          <input
+            type="text"
+            id="username"
+            required
+            class="w-full h-10 px-4 md:mt-5 md:mb-6 text-sm peer bg-gray-100 outline-none focus:outline-none input-field"
+            v-el:focusInput
+            v-model="answer"
+            v-bind:disabled="inputDisabled"
+          />
+          <label
+            for="answer"
+            class="transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
+            >Answer here 👉</label
+          >
+        </div>
+        <div class="mt-3 lg:mt-5 xl:mt-2 flex flex-col gap-y-3 md:gap-y-5 lg:gap-y-5 xl:gap-y-0">
           <!-- <div class="lg:flex lg:flex-row lg:justify-center lg:gap-x-8"> -->
           <div class="md:flex md:flex-row md:justify-center md:gap-x-8">
-          
-          <button
-            @click="checkAnswer"
-            class="w-48 p-2 mb-3 md:mb-8 rounded-xl bg-teal-300 hover:bg-teal-500 text-2xl text-white"
-          >
-            Submit
-          </button>
-            
-            <button 
+            <button
+              @click="checkAnswer"
+              class="w-48 p-2 mb-3 md:mb-8 rounded-xl bg-teal-300 hover:bg-teal-500 text-2xl text-white"
+            >
+              Submit
+            </button>
+
+            <button
               @click="displayHint1"
               class="w-48 p-2 md:mb-8 rounded-xl bg-yellow-300 hover:bg-yellow-500 text-2xl text-white"
             >
@@ -41,34 +51,32 @@
             </button>
           </div>
           <div class="md:flex md:flex-row md:justify-center md:gap-x-8">
-            
-            <button 
+            <button
               @click="displayHint2"
               class="w-48 p-2 mb-3 md:mb-8 rounded-xl bg-yellow-300 hover:bg-yellow-500 text-2xl text-white"
             >
               Hint 2
             </button>
-          <button 
-            @click="giveUpFn"
-            class="w-48 p-2 md:mb-8 rounded-xl bg-red-300 hover:bg-red-500 text-2xl text-white"
-          >
-            Give Up
-          </button>
+            <button
+              @click="giveUpFn"
+              class="w-48 p-2 md:mb-8 rounded-xl bg-red-300 hover:bg-red-500 text-2xl text-white"
+            >
+              Give Up
+            </button>
           </div>
           <div class="md:flex md:flex-row md:justify-center md:gap-x-8">
-            
             <RouterLink to="/">
-              <button 
+              <button
                 class="w-48 p-2 mb-3 rounded-xl bg-teal-300 hover:bg-teal-500 text-2xl text-white"
               >
                 How to play
               </button>
             </RouterLink>
-            <button 
-              v-on:click="generateUniqueEmojis" 
+            <button
+              v-on:click="generateUniqueEmojis"
               v-show="showButton"
               class="w-48 p-2 mb-3 rounded-xl bg-white hover:bg-gray-500 text-2xl text-teal-500"
-              >
+            >
               Restart Game
             </button>
           </div>
@@ -102,7 +110,8 @@ export default {
       showHint: false,
       showHint2: false,
       showGiveUp: false,
-      // showInput: false
+      showRestart: false,
+      showPressSubmit: false
     };
   },
   methods: {
@@ -180,6 +189,8 @@ export default {
     },
 
     async generateUniqueEmojis() {
+      this.showRestart = false;
+
       let uniqueIndex = false;
 
       // Make HTTP request to fetch the data
@@ -244,6 +255,8 @@ export default {
         this.showGiveUp = false;
       }, 5000);
       this.inputDisabled = true; // disable input field
+      this.showPressSubmit = true;
+
 
       console.log("hint2 : " + this.giveUp);
       this.genEmoji = true;
@@ -256,6 +269,8 @@ export default {
         this.correctAlert();
       } else {
         this.wrongAlert();
+        this.showPressSubmit = false;
+
       }
       this.answer = "";
       if (this.round < 4) {
@@ -271,8 +286,9 @@ export default {
         this.score = 0;
 
         this.showButton = true;
-
+        this.showRestart = true;
         this.inputDisabled = true; // disable input field
+
       }
     },
 
