@@ -17,7 +17,6 @@
         class="h-[430px] md:h-[500px] lg:h-[300px] xl:h-[315px] p-3 lg:p-0 rounded-t-3xl flex flex-col items-center bg-teal-600 fixed bottom-0 left-0 w-full"
       >
         <div class="relative group">
-          <!-- <div class="w-56 relative group"> -->
           <input
             type="text"
             id="username"
@@ -33,8 +32,9 @@
             >Answer here 👉</label
           >
         </div>
-        <div class="mt-3 lg:mt-5 xl:mt-2 flex flex-col gap-y-3 md:gap-y-5 lg:gap-y-5 xl:gap-y-0">
-          <!-- <div class="lg:flex lg:flex-row lg:justify-center lg:gap-x-8"> -->
+        <div
+          class="mt-3 lg:mt-5 xl:mt-2 flex flex-col gap-y-3 md:gap-y-5 lg:gap-y-5 xl:gap-y-0"
+        >
           <div class="md:flex md:flex-row md:justify-center md:gap-x-8">
             <button
               @click="checkAnswer"
@@ -87,14 +87,11 @@
 </template>
 
 <script>
-//   import emojis from "../db.json";
-// import emojis from "https://warathepj.github.io/vuejs-emoji-convert.json";
 import { RouterLink, RouterView } from "vue-router";
 
 export default {
   data() {
     return {
-      // emojis: emojis.emojis,
       emojis: [],
       emoji: "",
       hint1: "",
@@ -111,7 +108,7 @@ export default {
       showHint2: false,
       showGiveUp: false,
       showRestart: false,
-      showPressSubmit: false
+      showPressSubmit: false,
     };
   },
   methods: {
@@ -133,7 +130,6 @@ export default {
           clearInterval(timerInterval);
         },
       }).then((result) => {
-        /* Read more about handling dismissals below */
         if (result.dismiss === this.$swal.DismissReason.timer) {
           console.log("I was closed by the timer");
         }
@@ -157,7 +153,6 @@ export default {
           clearInterval(timerInterval);
         },
       }).then((result) => {
-        /* Read more about handling dismissals below */
         if (result.dismiss === this.$swal.DismissReason.timer) {
           console.log("I was closed by the timer");
         }
@@ -181,7 +176,6 @@ export default {
           clearInterval(timerInterval);
         },
       }).then((result) => {
-        /* Read more about handling dismissals below */
         if (result.dismiss === this.$swal.DismissReason.timer) {
           console.log("I was closed by the timer");
         }
@@ -257,7 +251,6 @@ export default {
       this.inputDisabled = true; // disable input field
       this.showPressSubmit = true;
 
-
       console.log("hint2 : " + this.giveUp);
       this.genEmoji = true;
       console.log("genEmoji from giveUpFn() : " + this.genEmoji);
@@ -270,7 +263,6 @@ export default {
       } else {
         this.wrongAlert();
         this.showPressSubmit = false;
-
       }
       this.answer = "";
       if (this.round < 4) {
@@ -288,7 +280,6 @@ export default {
         this.showButton = true;
         this.showRestart = true;
         this.inputDisabled = true; // disable input field
-
       }
     },
 
