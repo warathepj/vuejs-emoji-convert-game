@@ -3,8 +3,8 @@
     <div v-if="round < 5">
       <h2 class="text-[60px]">{{ emoji }}</h2>
       <div class="h-56 text-2xl">
-        <h3 v-show="showHint" class="text-yellow-300">{{ hint1 }}</h3>
-        <h3 v-show="showHint2" class="text-yellow-500">{{ hint2 }}</h3>
+        <h3 v-show="showHint" class="text-black">{{ hint1 }}</h3>
+        <h3 v-show="showHint2" class="text-black">{{ hint2 }}</h3>
         <h3 v-show="showGiveUp" class="text-red-500">{{ giveUp }}</h3>
         <h3 v-show="showRestart" class="text-red-500">
           Press "Restart Game" if you want to restart game.
@@ -14,7 +14,7 @@
         </h3>
       </div>
       <div
-        class="h-[430px] md:h-[500px] lg:h-[300px] xl:h-[315px] p-3 lg:p-0 rounded-t-3xl flex flex-col items-center bg-teal-600 fixed bottom-0 left-0 w-full"
+        class="h-[430px] md:h-[500px] lg:h-[320px] xl:h-[315px] p-3 lg:p-0 rounded-t-3xl flex flex-col items-center bg-teal-600 fixed bottom-0 left-0 w-full"
       >
         <div class="relative group">
           <input
@@ -33,9 +33,9 @@
           >
         </div>
         <div
-          class="mt-3 lg:mt-5 xl:mt-2 flex flex-col gap-y-3 md:gap-y-5 lg:gap-y-5 xl:gap-y-0"
+          class="mt-3 lg:mt-5 xl:mt-2 flex flex-col gap-y-3 md:gap-y-5 lg:gap-y-0 xl:gap-y-0"
         >
-          <div class="md:flex md:flex-row md:justify-center md:gap-x-8">
+          <div class="md:flex md:flex-row md:justify-center gap-x-2 md:gap-x-8">
             <button
               @click="checkAnswer"
               class="w-48 p-2 mb-3 md:mb-8 rounded-xl bg-teal-300 hover:bg-teal-500 text-2xl text-white"
@@ -131,7 +131,7 @@ export default {
         },
       }).then((result) => {
         if (result.dismiss === this.$swal.DismissReason.timer) {
-          console.log("I was closed by the timer");
+          // console.log("I was closed by the timer");
         }
       });
     },
@@ -154,7 +154,7 @@ export default {
         },
       }).then((result) => {
         if (result.dismiss === this.$swal.DismissReason.timer) {
-          console.log("I was closed by the timer");
+          // console.log("I was closed by the timer");
         }
       });
     },
@@ -177,19 +177,18 @@ export default {
         },
       }).then((result) => {
         if (result.dismiss === this.$swal.DismissReason.timer) {
-          console.log("I was closed by the timer");
+          // console.log("I was closed by the timer");
         }
       });
     },
 
     async generateUniqueEmojis() {
       this.showRestart = false;
-
       let uniqueIndex = false;
 
       // Make HTTP request to fetch the data
       const response = await fetch(
-        "https://warathepj.github.io/vuejs-emoji-convert.json"
+        "https://warathepj.github.io/json-emoji-convert/emoji-convert.json"
       );
       const data = await response.json();
 
@@ -207,9 +206,9 @@ export default {
       }
       this.inputDisabled = false; // re-enable input field when done
       this.showButton = false;
-      this.genEmoji = false;
+      // this.genEmoji = false;
 
-      console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
+      // console.log("genEmoji from generateUniqueEmojis() : " + this.genEmoji);
     },
 
     displayHint1() {
@@ -221,9 +220,9 @@ export default {
       setTimeout(() => {
         this.showHint = false;
       }, 5000);
-      console.log("hint1 : " + this.hint1);
+      // console.log("hint1 : " + this.hint1);
       this.genEmoji = true;
-      console.log("genEmoji from displayHint1() : " + this.genEmoji);
+      // console.log("genEmoji from displayHint1() : " + this.genEmoji);
     },
     displayHint2() {
       let currentEmojisIndex2 = this.emojis.findIndex(
@@ -234,9 +233,9 @@ export default {
       setTimeout(() => {
         this.showHint2 = false;
       }, 5000);
-      console.log("hint2 : " + this.hint2);
+      // console.log("hint2 : " + this.hint2);
       this.genEmoji = true;
-      console.log("genEmoji from displayHint2() : " + this.genEmoji);
+      // console.log("genEmoji from displayHint2() : " + this.genEmoji);
     },
 
     giveUpFn() {
@@ -251,9 +250,9 @@ export default {
       this.inputDisabled = true; // disable input field
       this.showPressSubmit = true;
 
-      console.log("hint2 : " + this.giveUp);
+      // console.log("hint2 : " + this.giveUp);
       this.genEmoji = true;
-      console.log("genEmoji from giveUpFn() : " + this.genEmoji);
+      // console.log("genEmoji from giveUpFn() : " + this.genEmoji);
     },
 
     checkAnswer() {
@@ -267,16 +266,13 @@ export default {
       this.answer = "";
       if (this.round < 4) {
         this.generateNextRound();
-        console.log(this.roundEmojis);
+        // console.log(this.roundEmojis);
       } else {
-        console.log(this.roundEmojis);
-
+        // console.log(this.roundEmojis);
         this.scoreAlert();
-
         this.roundEmojis = [];
         this.round = 0;
         this.score = 0;
-
         this.showButton = true;
         this.showRestart = true;
         this.inputDisabled = true; // disable input field
@@ -297,7 +293,7 @@ export default {
       if (this.round < 5) {
         this.generateUniqueEmojis();
       } else {
-        console.log(this.emojiIndexes); // log the array of emoji indexes to the console
+        // console.log(this.emojiIndexes); // log the array of emoji indexes to the console
       }
     },
 
