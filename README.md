@@ -1,6 +1,6 @@
 # เลี้ยงกาแฟผู้พัฒนา
 
-![Promptpay](https://warathepj.github.io/js-ai-gallery/public/image/prompt-50.jpg)
+!["Alt text"](https://warathepj.github.io/js-ai-gallery/public/image/promptpay-30.png)
 
 # Emoji Guessing Game
 
