@@ -8,13 +8,14 @@
         />
         <div class="flex flex-col">
 
-          <RouterLink to="/">
+          <!-- <a href="https://nextjs-my-project.vercel.app/"> -->
+            <a href="https://nextjs-my-project.vercel.app/" target="_blank" rel="noopener noreferrer">
                 <button
                   class="w-48 p-2 mb-8 rounded-xl bg-white hover:bg-teal-300 text-2xl text-teal-500"
                 >
                   ดูโปรเจ็คอื่นๆ
                 </button>
-              </RouterLink>
+              </a>
   
           <RouterLink to="/game">
                 <button
